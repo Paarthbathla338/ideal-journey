@@ -1,11 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import {db} from "./Core/Config.js"
 
 export default function App() {
+
+  const Create=()=>{
+
+  }
+  const Read=()=>{
+    
+  }
+  const Update=()=>{
+    
+  }
+  const Delete=()=>{
+    
+  }
+
+
+
+
+
+
+
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <Button title="Create New Doc"></Button>
     </View>
   );
 }
