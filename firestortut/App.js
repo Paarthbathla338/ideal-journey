@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import {db} from "./Core/Config.js"
-import {doc, setDoc} from "firebase/firestore"
+import {doc, getDoc, setDoc} from "firebase/firestore"
+import {useState} from "react"
 
 
 export default function App() {
 
+  const [userDoc,setUserDoc]=useState(null)
 
   const Create=()=>{
     const myDoc=doc(db,"MyCollection","MyDoc")
@@ -22,6 +24,20 @@ export default function App() {
 
   }
   const Read=()=>{
+    const myDoc=doc(db,"MyCollection","MyDoc")
+    getDoc(myDoc)
+    .then((snapshot)=>{
+      if (snapshot.exists){
+        setUserDoc(snapshot.data())
+
+      }
+      else{
+        alert("Document does not exist")
+      }
+    })
+    .catch((error)=>{alert(error.message)})
+
+    
     
   }
   const Update=()=>{
@@ -41,6 +57,20 @@ export default function App() {
   return (
     <View style={styles.container}>
     <Button title="Create New Doc" onPress={Create}></Button>
+    <Button title="Read Doc" onPress={Read}></Button>
+    {
+      userDoc != null &&
+      <View>
+      <Text>Name:{userDoc.name}</Text>
+      <Text>Age:{userDoc.age}</Text>
+      <Text>Residence:{userDoc.residence}</Text>
+
+
+
+      </View>
+
+    }
+
     </View>
   );
 }
