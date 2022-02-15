@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import {db} from "./Core/Config.js"
-import {doc, getDoc, setDoc} from "firebase/firestore"
+import {deleteDoc, doc, getDoc, setDoc} from "firebase/firestore"
 import {useState} from "react"
 
 
@@ -52,6 +52,15 @@ export default function App() {
     
   }
   const Delete=()=>{
+    const myDoc=doc(db,"MyCollection","MyDoc")
+
+    deleteDoc(myDoc)
+    .then(()=>{
+      alert("Document SUCCESFULLY deleted")
+    })
+    .catch((error)=>{alert(error.message)})
+
+
     
   }
 
@@ -85,6 +94,8 @@ export default function App() {
         "name":text
       },true)
     }} disabled={text==""}></Button>
+      <Button title="Delete Doc" onPress={Delete}></Button>
+
 
 
     </View>
