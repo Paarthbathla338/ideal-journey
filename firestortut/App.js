@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import {db} from "./Core/Config.js"
 import {doc, getDoc, setDoc} from "firebase/firestore"
 import {useState} from "react"
@@ -8,6 +8,7 @@ import {useState} from "react"
 export default function App() {
 
   const [userDoc,setUserDoc]=useState(null)
+  const [text, setText]=useState("")
 
   const Create=()=>{
     const myDoc=doc(db,"MyCollection","MyDoc")
@@ -40,7 +41,14 @@ export default function App() {
     
     
   }
-  const Update=()=>{
+  const Update=(value, merge)=>{
+    const myDoc=doc(db,"MyCollection","MyDoc")
+    setDoc(myDoc, value, {merge: merge})
+    .then(()=>{
+      setText("")
+    })
+    .catch((error)=>{alert(error.message)})
+
     
   }
   const Delete=()=>{
@@ -62,14 +70,22 @@ export default function App() {
       userDoc != null &&
       <View>
       <Text>Name:{userDoc.name}</Text>
-      <Text>Age:{userDoc.age}</Text>
-      <Text>Residence:{userDoc.residence}</Text>
 
 
 
       </View>
 
     }
+
+    <TextInput placeholder="updateValue" onChangeText={(text)=>{setText(text)}} value={text}></TextInput>
+    
+    
+    <Button title="Update Doc" onPress={Update} onPress={()=>{
+      Update({
+        "name":text
+      },true)
+    }} disabled={text==""}></Button>
+
 
     </View>
   );
