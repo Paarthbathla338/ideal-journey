@@ -1,7 +1,7 @@
-import { initializeApp } from 'firebase/app';
-import {getFirestore} from "firebase/firestore";
+import * as firebase from 'firebase';
+import '@firebase/auth';
+import '@firebase/firestore';
 
-// TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCJnqGRtoFjV3zFUJ5OaOGXoPnyYzDkb5k",
     authDomain: "creatingpostsapp.firebaseapp.com",
@@ -12,5 +12,16 @@ const firebaseConfig = {
     measurementId: "G-JMBX9B45YT"  //...
 };
 
-export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app)
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+export { firebase };
+
+
+
+
+
+
+
+
